@@ -1,0 +1,23 @@
+name: WeChat Reminder
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # 每15分钟运行一次
+  workflow_dispatch: # 允许手动测试
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - run: pip install requests
+      - run: python main.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WECHAT_APPID: ${{ secrets.WECHAT_APPID }}
+          WECHAT_SECRET: ${{ secrets.WECHAT_SECRET }}
+          WECHAT_USER_ID: ${{ secrets.WECHAT_USER_ID }}
+          WECHAT_TEMPLATE_ID: ${{ secrets.WECHAT_TEMPLATE_ID }}
