@@ -10,14 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - run: pip install requests
-      - run: python main.py
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run python main.py
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 修正重点：将 GITHUB_TOKEN 改为 GT_TOKEN，确保与你仓库 Settings 里的名字一致
+          GT_TOKEN: ${{ secrets.GT_TOKEN }}
           WECHAT_APPID: ${{ secrets.WECHAT_APPID }}
           WECHAT_SECRET: ${{ secrets.WECHAT_SECRET }}
           WECHAT_USER_ID: ${{ secrets.WECHAT_USER_ID }}
           WECHAT_TEMPLATE_ID: ${{ secrets.WECHAT_TEMPLATE_ID }}
+        run: python main.py
